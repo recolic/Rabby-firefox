@@ -16,7 +16,8 @@ const config = {
       'process.env.BUILD_ENV': JSON.stringify('PRO'),
     }),
     true && new SecSDK({
-      dev: false
+      dev: false,
+      freezePrototypes: !process.env.MANIFEST_TYPE?.includes('firefox'),
     }),
   ].filter(Boolean),
 

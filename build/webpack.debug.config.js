@@ -19,6 +19,7 @@ const config = {
     true &&
       new SecSDK({
         dev: false,
+        freezePrototypes: !process.env.MANIFEST_TYPE?.includes('firefox'),
         forceCheck: false
       }),
   ].filter(Boolean),
