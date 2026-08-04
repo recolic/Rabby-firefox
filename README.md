@@ -20,7 +20,7 @@ corepack yarn build:pro:mv2
 
 # not signed
 cd dist-mv2 ; zip -qr ../rabby-firefox-unsigned.xpi . ; cd ..
-echo "Build completed. XPI available at rabby-firefox-unsigned.xpi (install at about:debugging#/runtime/this-firefox)"
+echo "Build completed. XPI available at rabby-firefox-unsigned.xpi (use firefox-developer-edition + xpinstall.signatures.required=false in about:config)"
 
 # prod-signed (firefox won't allow. not worth trying)
 export WEB_EXT_API_KEY=$(rsec MOZ_EXT_JWT_ISSUE)
