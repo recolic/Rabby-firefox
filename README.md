@@ -18,15 +18,15 @@ corepack enable
 corepack yarn install --immutable
 corepack yarn build:pro:mv2
 
-# prod-signed
+# not signed
+cd dist-mv2 ; zip -qr ../rabby-firefox-unsigned.xpi . ; cd ..
+echo "Build completed. XPI available at rabby-firefox-unsigned.xpi (install at about:debugging#/runtime/this-firefox)"
+
+# prod-signed (firefox won't allow. not worth trying)
 export WEB_EXT_API_KEY=$(rsec MOZ_EXT_JWT_ISSUE)
 export WEB_EXT_API_SECRET=$(rsec MOZ_EXT_JWL_SECRT)
 corepack yarn dlx web-ext@10 sign --source-dir dist-mv2 --channel unlisted --artifacts-dir web-ext-artifacts
 echo "Build completed. XPI available at web-ext-artifacts/rabby-firefox.xpi"
-
-# not signed
-cd dist-mv2 ; zip -qr ../rabby-firefox-unsigned.xpi . ; cd ..
-echo "Build completed. XPI available at rabby-firefox-unsigned.xpi (only works at about:debugging#/runtime/this-firefox)"
 ```
 
 # Rabby Wallet
