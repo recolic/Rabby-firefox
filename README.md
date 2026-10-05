@@ -1,3 +1,34 @@
+# recolic's fork: Rabby build for firefox
+
+Branch rule: 
+
+develop branch -> always sync with upstream.  
+release/xxx branch -> fork from develop + my patch.
+
+Most work is done by GPT 5.6 sol. Build instruction:
+
+```bash
+## with fresh ubuntu 24.04
+## after git clone with correct branch...
+sudo apt update
+sudo apt install -y git curl xz-utils build-essential python3 libusb-1.0-0-dev libudev-dev libarchive-tools
+curl -fsSL https://nodejs.org/dist/latest-v22.x/node-v22.23.2-linux-x64.tar.xz | sudo tar -xJ -C /usr/local --strip-components=1
+node --version
+corepack enable
+corepack yarn install --immutable
+corepack yarn build:pro:mv2
+
+# not signed
+cd dist-mv2 ; zip -qr ../rabby-firefox-unsigned.xpi . ; cd ..
+echo "Build completed. XPI available at rabby-firefox-unsigned.xpi (use firefox-developer-edition + xpinstall.signatures.required=false in about:config)"
+
+# prod-signed (firefox won't allow. not worth trying)
+export WEB_EXT_API_KEY=$(rsec MOZ_EXT_JWT_ISSUE)
+export WEB_EXT_API_SECRET=$(rsec MOZ_EXT_JWL_SECRT)
+corepack yarn dlx web-ext@10 sign --source-dir dist-mv2 --channel unlisted --artifacts-dir web-ext-artifacts
+echo "Build completed. XPI available at web-ext-artifacts/rabby-firefox.xpi"
+```
+
 # Rabby Wallet
 
 Rabby Wallet is an open-source browser plugin for the DeFi ecosystem, providing users with a better-to-use and more secure multi-chain experience.
